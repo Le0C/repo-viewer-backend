@@ -1,3 +1,4 @@
+import { get } from "http";
 import { D3ForceTree } from "../types";
 import { writeToFile } from "./file";
 import { filterSourceFiles } from "./filter";
@@ -5,12 +6,16 @@ import { createTree, makeProject } from "./morph";
 
 const treeWriteLocation = process.env.TREE_WRITE_LOCATION || "./data/tree.json";
 
+const criteriaSplitter = (criteria: string | string[]): string[] => {
+  if (typeof criteria === "string") {
+    criteria = criteria.split(",");
+  }
+  return criteria;
+};
+
 const getFileExclusions = (): string[] => {
   let fileExclusions = process.env.FILE_EXCLUSIONS || [".js", ".mjs", ".json"];
-  if (typeof fileExclusions === "string") {
-    fileExclusions = fileExclusions.split(",");
-  }
-  return fileExclusions;
+  return criteriaSplitter(fileExclusions);
 };
 
 const getExclusionCriteria = (): string[] => {
@@ -24,10 +29,16 @@ const getExclusionCriteria = (): string[] => {
     ".storybook",
     "__mocks__",
   ];
-  if (typeof exclusionCriteria === "string") {
-    exclusionCriteria = exclusionCriteria.split(",");
-  }
-  return exclusionCriteria;
+  return criteriaSplitter(exclusionCriteria);
+};
+
+const getImportExclusions = (): string[] => {
+  let importExclusions = process.env.IMPORT_EXCLUSIONS || [
+    "node_modules",
+    "kea",
+    "react",
+  ];
+  return criteriaSplitter(importExclusions);
 };
 
 export const processor = async (tsConfigPath: string): Promise<D3ForceTree> => {
@@ -49,7 +60,7 @@ export const processor = async (tsConfigPath: string): Promise<D3ForceTree> => {
   console.log(`Filtered to ${srcFiles.length} files`);
 
   console.log(`Creating tree...`);
-  const dataTree = createTree(srcFiles);
+  const dataTree = createTree(srcFiles, getImportExclusions());
   console.log(
     `Tree created with ${dataTree.nodes.length} nodes & ${dataTree.links.length} links`
   );
