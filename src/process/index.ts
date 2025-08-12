@@ -1,10 +1,10 @@
-import { get } from "http";
 import { D3ForceTree } from "../types";
 import { writeToFile } from "./file";
 import { filterSourceFiles } from "./filter";
 import { createTree, makeProject } from "./morph";
 
-const treeWriteLocation = process.env.TREE_WRITE_LOCATION || "./data/tree.json";
+const treeWriteLocation =
+  process.env.TREE_WRITE_LOCATION || "../data/tree.json";
 
 const criteriaSplitter = (criteria: string | string[]): string[] => {
   if (typeof criteria === "string") {
@@ -13,12 +13,12 @@ const criteriaSplitter = (criteria: string | string[]): string[] => {
   return criteria;
 };
 
-const getFileExclusions = (): string[] => {
+export const getFileExclusions = (): string[] => {
   let fileExclusions = process.env.FILE_EXCLUSIONS || [".js", ".mjs", ".json"];
   return criteriaSplitter(fileExclusions);
 };
 
-const getExclusionCriteria = (): string[] => {
+export const getExclusionCriteria = (): string[] => {
   let exclusionCriteria = process.env.EXCLUSION_CRITERIA || [
     ".test.",
     ".spec.",
@@ -32,7 +32,7 @@ const getExclusionCriteria = (): string[] => {
   return criteriaSplitter(exclusionCriteria);
 };
 
-const getImportExclusions = (): string[] => {
+export const getImportExclusions = (): string[] => {
   let importExclusions = process.env.IMPORT_EXCLUSIONS || [
     "node_modules",
     "kea",

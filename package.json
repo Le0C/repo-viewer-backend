@@ -1,15 +1,16 @@
 {
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.9",
-    "typescript": "^5.6.3",
-    "@types/d3": "^7.4.3"
+    "@types/node": "^22.9.3",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "d3": "^7.9.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "ts-morph": "^24.0.0",
-    "d3": "^7.9.0"
+    "ts-morph": "^24.0.0"
   },
   "scripts": {
     "build": "npx tsc",
