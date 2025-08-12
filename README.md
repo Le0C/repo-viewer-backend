@@ -1,4 +1,4 @@
-# Viewer Backend
+# Repo Viewer (backend)
 
 This is the backend service for the Viewer application. It is built with Node.js and TypeScript, providing API endpoints and data processing for the frontend viewer.
 
